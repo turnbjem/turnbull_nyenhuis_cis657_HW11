@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/lat1"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Enter latitude 1"
+        android:inputType="numberDecimal|numberSigned"
+        app:layout_constraintEnd_toStartOf="@+id/long1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/long2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Enter longitude 2"
+        android:inputType="numberDecimal|numberSigned"
+        app:layout_constraintEnd_toEndOf="@+id/long1"
+        app:layout_constraintStart_toStartOf="@+id/long1"
+        app:layout_constraintTop_toBottomOf="@+id/long1" />
+
+    <EditText
+        android:id="@+id/long1"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="Enter longitude 1"
+        android:inputType="numberDecimal|numberSigned"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/lat1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/lat2"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Enter latitude 2"
+        android:inputType="numberDecimal|numberSigned"
+        app:layout_constraintEnd_toEndOf="@+id/lat1"
+        app:layout_constraintStart_toStartOf="@+id/lat1"
+        app:layout_constraintTop_toBottomOf="@+id/lat1" />
+
+    <Button
+        android:id="@+id/ClearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:text="Clear"
+        app:layout_constraintEnd_toEndOf="@+id/long1"
+        app:layout_constraintTop_toBottomOf="@+id/long2" />
+
+    <Button
+        android:id="@+id/CalculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:text="Calculate"
+        app:layout_constraintStart_toStartOf="@+id/lat1"
+        app:layout_constraintTop_toBottomOf="@+id/lat2" />
+
+    <TextView
+        android:id="@+id/BearingText"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:text="Bearing:  "
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/long1"
+        app:layout_constraintStart_toStartOf="@+id/lat1"
+        app:layout_constraintTop_toBottomOf="@+id/distanceText"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/distanceText"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:text="Distance: "
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/long1"
+        app:layout_constraintStart_toStartOf="@+id/lat1"
+        app:layout_constraintTop_toBottomOf="@+id/CalculateButton"
+        tools:visibility="visible" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <TextView
+        android:id="@+id/SearchPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Tired of typing?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/searchbutton"
+        app:layout_constraintHorizontal_bias=".5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintRight_toLeftOf="@+id/searchbutton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/searchbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="SEARCH"
+        app:layout_constraintBaseline_toBaselineOf="@+id/SearchPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@+id/SearchPrompt"
+        app:layout_constraintStart_toEndOf="@+id/SearchPrompt" />
+
+
+</android.support.constraint.ConstraintLayout>
