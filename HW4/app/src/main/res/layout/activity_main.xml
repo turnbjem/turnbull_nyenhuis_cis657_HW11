@@ -151,5 +151,67 @@
         app:layout_constraintLeft_toRightOf="@+id/SearchPrompt"
         app:layout_constraintStart_toEndOf="@+id/SearchPrompt" />
 
+    <ImageView
+        android:id="@+id/Lat1_image"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/BearingText"
+        app:srcCompat="@drawable/clear_day" />
+
+    <TextView
+        android:id="@+id/Lat1_temp"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/Lat1_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lat1_image" />
+
+    <TextView
+        android:id="@+id/Lat1_des"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lat1_image"
+        app:layout_constraintTop_toTopOf="@+id/Lat1_image" />
+
+    <ImageView
+        android:id="@+id/Lat2_image"
+        android:layout_width="wrap_content"
+        android:layout_height="128dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/Lat1_image"
+        app:layout_constraintTop_toBottomOf="@+id/Lat1_image"
+        app:srcCompat="@drawable/cloudy" />
+
+    <TextView
+        android:id="@+id/Lat2_temp"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/Lat2_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lat2_image" />
+
+    <TextView
+        android:id="@+id/Lat2_des"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Lat2_image"
+        app:layout_constraintTop_toTopOf="@+id/Lat2_image" />
+
 
 </android.support.constraint.ConstraintLayout>

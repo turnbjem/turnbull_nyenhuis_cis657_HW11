@@ -1,20 +1,27 @@
 package com.example.cis657_hw4;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.example.cis657_hw4.webservice.WeatherService;
 import com.google.android.libraries.places.api.Places;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,11 +33,14 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.cis657_hw4.webservice.WeatherService.BROADCAST_ELEMENT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
     TextView distanceresult;
     TextView bearingresult;
+    private TextView lat1_temp = null;
+    private TextView lat1_sum = null;
+    private TextView lat2_temp = null;
+    private TextView lat2_sum = null;
 
     Double distance;
     Double bearing;
@@ -62,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
     Button CalculateButton;
     Button ClearButton;
     Button SearchButton;
+
+    private ImageView lat1_icon = null;
+    private ImageView lat2_icon = null;
 
     DatabaseReference topRef;
     public static List<LocationLookup> allHistory;
@@ -79,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
         long1 = (EditText) findViewById(R.id.long1);
         lat2 = (EditText) findViewById(R.id.lat2);
         long2 = (EditText) findViewById(R.id.long2);
+        lat1_temp = (TextView) findViewById(R.id.Lat1_temp);
+        lat1_sum = (TextView) findViewById(R.id.Lat1_des);
+        lat2_temp = (TextView) findViewById(R.id.Lat2_temp);
+        lat2_sum = (TextView) findViewById(R.id.Lat2_des);
+        lat1_icon = (ImageView) findViewById(R.id.Lat1_image);
+        lat2_icon = (ImageView) findViewById(R.id.Lat2_image);
 
 
         distanceresult = (TextView) findViewById(R.id.distanceText);
@@ -117,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
                 calcDistance();
             }
 
+            WeatherService.startGetWeather(this, lat1str, long1str, "p1");
+            WeatherService.startGetWeather(this, lat2str, long2str, "p2");
+
         });
 
         ClearButton.setOnClickListener(y -> {
@@ -130,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
             lat2.onEditorAction(EditorInfo.IME_ACTION_DONE);
             long1.onEditorAction(EditorInfo.IME_ACTION_DONE);
             long2.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            setWeatherViews(View.INVISIBLE);
+
         });
 
         SearchButton.setOnClickListener(y -> {
@@ -137,9 +165,42 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(newLocation, NEW_LOCATION_REQUEST);
         });
 
-        Places.initialize(getApplicationContext(),"");
+        Places.initialize(getApplicationContext(),"AIzaSyC0-3ISnKtuMfohyQXBvpQCMtlkhDzVJZA");
         allHistory = new ArrayList<LocationLookup>();
     }
+
+    private void setWeatherViews(int visible) {
+        lat1_icon.setVisibility(visible);
+        lat2_icon.setVisibility(visible);
+        lat1_temp.setVisibility(visible);
+        lat2_temp.setVisibility(visible);
+        lat1_sum.setVisibility(visible);
+        lat2_sum.setVisibility(visible);
+    }
+
+    private BroadcastReceiver weatherReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("Main Activity", "onReceive: " + intent);
+            Bundle bundle = intent.getExtras();
+            double temp = bundle.getDouble("TEMPERATURE");
+            String summary = bundle.getString("SUMMARY");
+            String icon = bundle.getString("ICON").replaceAll("-", "_");
+            String key = bundle.getString("KEY");
+            int resID = getResources().getIdentifier(icon , "drawable", getPackageName());
+            setWeatherViews(View.VISIBLE);
+            if (key.equals("p1"))  {
+                lat1_sum.setText(summary);
+                lat1_temp.setText(Double.toString(temp));
+                lat1_icon.setImageResource(resID);
+                lat1_icon.setVisibility(View.VISIBLE);
+            } else {
+                lat2_sum.setText(summary);
+                lat2_temp.setText(Double.toString(temp));
+                lat2_icon.setImageResource(resID);
+            }
+        }
+    };
 
 
 
@@ -150,12 +211,16 @@ public class MainActivity extends AppCompatActivity {
         topRef = FirebaseDatabase.getInstance().getReference();
         topRef.addChildEventListener (chEvListener);
         //topRef.addValueEventListener(valEvListener);
+        IntentFilter weatherFilter = new IntentFilter(BROADCAST_ELEMENT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(weatherReceiver, weatherFilter);
+        setWeatherViews(View.INVISIBLE);
     }
 
     @Override
     public void onPause(){
         super.onPause();
         topRef.removeEventListener(chEvListener);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(weatherReceiver);
     }
 
 
@@ -324,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             LocationLookup entry = (LocationLookup) dataSnapshot.getValue(LocationLookup.class);
-            entry._key = dataSnapshot.getKey();
+            //entry._key = dataSnapshot.getKey();
             allHistory.add(entry);
         }
 
