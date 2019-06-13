@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(newLocation, NEW_LOCATION_REQUEST);
         });
 
-        Places.initialize(getApplicationContext(),"AIzaSyC0-3ISnKtuMfohyQXBvpQCMtlkhDzVJZA");
+        Places.initialize(getApplicationContext(),"PLACE API HERE!");
         allHistory = new ArrayList<LocationLookup>();
     }
 
